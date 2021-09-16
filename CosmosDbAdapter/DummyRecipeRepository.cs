@@ -4,10 +4,12 @@ using rest.Shared;
 namespace CosmosDbAdapter
 {
     internal class DummyRecipeRepository : IRecipeRepository
-    {        
-        public Task<IEnumerable<Recipe>> GetAllRecipesAsync()
+    {
+        private readonly ICollection<Recipe> _recipes;
+
+        public DummyRecipeRepository()
         {
-            var recipes = new[] {
+            _recipes = new[] {
                 RecipeFactory,
                 RecipeFactory,
                 RecipeFactory,
@@ -24,20 +26,23 @@ namespace CosmosDbAdapter
                 RecipeFactory,
                 RecipeFactory,
             };
-            return Task.FromResult<IEnumerable<Recipe>>(recipes);
         }
 
-        private static Recipe RecipeFactory => new Recipe
+        public Task<IEnumerable<Recipe>> GetAllRecipesAsync()
         {
-            Id = Guid.NewGuid(),
-            Title = RandomString(20),
-            Instruction = RandomString(200),
-            Ingredients = new[]
+            return Task.FromResult<IEnumerable<Recipe>>(_recipes);
+        }
+
+        private static Recipe RecipeFactory => Recipe.CreateNew
+        (              
+            RandomString(20),
+            RandomString(200),
+            new[]
             {
                 IngredientFactory,
                 IngredientFactory
             }
-        };
+        );
 
         private static Ingredient IngredientFactory => new Ingredient
         {
@@ -54,5 +59,10 @@ namespace CosmosDbAdapter
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        public Task<Recipe> CreateAsync(Recipe newRecipe)
+        {
+            _recipes.Add(newRecipe);
+            return Task.FromResult(newRecipe);
+        }
     }
 }

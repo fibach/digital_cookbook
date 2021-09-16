@@ -1,0 +1,27 @@
+@page "/create"
+@using Labdays.DigitalCookbook.Rest.Shared
+@using Microsoft.Extensions.Logging
+@using rest.Shared
+@inject ILogger<FormExample> Logger
+@inject HttpClient Client
+
+<EditForm Model="@recipe" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="title" @bind-Value="recipe.Title" />
+    <InputText id="title" @bind-Value="recipe.Instruction" />
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private Recipe recipe = new Recipe();
+
+    private async Task HandleValidSubmit()
+    {
+        Logger.LogInformation("HandleValidSubmit called");
+        var jsonContent = JsonContent.Create(recipe);
+        await Client.PostAsync("/cookbook", jsonContent);
+    }
+}

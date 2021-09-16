@@ -1,4 +1,6 @@
+using Labdays.DigitalCookbook.Rest.Shared;
 using Microsoft.AspNetCore.Mvc;
+using rest.Server.Models;
 using rest.Shared;
 
 namespace rest.Server.Controllers
@@ -7,28 +9,27 @@ namespace rest.Server.Controllers
     [Route("[controller]")]
     public class CookbookController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private readonly IRecipeRepository _recipeRepository;
 
         private readonly ILogger<CookbookController> _logger;
 
-        public CookbookController(ILogger<CookbookController> logger)
+        public CookbookController(ILogger<CookbookController> logger, IRecipeRepository recipeRepository)
         {
             _logger = logger;
+            _recipeRepository = recipeRepository;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<Recipe>> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return await _recipeRepository.GetAllRecipesAsync();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm] RecipeModel recipe)
+        {
+            var stored = await _recipeRepository.CreateAsync(recipe.ToRecipe());
+            return Created("", stored) ;
         }
     }
 }
