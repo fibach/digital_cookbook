@@ -1,2 +1,2 @@
 # digital_cookbook
-First Labday project 16.08.2021
+First Labday project 16.08.2021 (Digital Cookbook)
