@@ -7,12 +7,12 @@ namespace rest.Server.Models
         public Guid? Id {  get; set; }
         public string? Title { get; set; }
         public string? Instruction { get; set; }
-        public IEnumerable<Ingredient> Ingredients { get; set; }
+        public IList<IngredientModel> Ingredients { get; set; }
         public byte[] Image { get; set; }
 
         public RecipeModel()
         {
-            Ingredients = new List<Ingredient>();
+            Ingredients = new List<IngredientModel>();
             Image = new byte[0];
         }   
     }
