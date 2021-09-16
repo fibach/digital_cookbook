@@ -1,13 +1,18 @@
 using CosmosDbAdapter;
-using Microsoft.AspNetCore.ResponseCompression;
+using rest.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddRecipeRepository();
+
+var config = new AppConfiguration();
+builder.Services.AddSingleton(config);
+
+builder.Configuration.Bind(config);
+builder.Services.AddCosmosDbRepository(config.CosmosDbOptions ?? throw new ArgumentException($"no {nameof(config.CosmosDbOptions)} configured"));
 
 var app = builder.Build();
 

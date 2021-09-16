@@ -9,5 +9,11 @@ namespace CosmosDbAdapter
         {
             return service.AddSingleton<IRecipeRepository, DummyRecipeRepository>();
         }
+
+        public static IServiceCollection AddCosmosDbRepository(this IServiceCollection serviceCollection, CosmosDbOptions options)
+        {
+            return serviceCollection
+                .AddTransient<IRecipeRepository>(_ => new CosmosDbRecipeRepository(options));
+        }
     }
 }
