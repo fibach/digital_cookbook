@@ -7,6 +7,9 @@
 <h1>Recipes</h1>
 
 <p>Recipe overview</p>
+@if(recipes == null){
+    <p>Loading...</p>
+} else {
 <table class="table">
     <thead>
         <tr>
@@ -24,9 +27,10 @@
         }
     </tbody>
 </table>
+}
 
 @code {
-    private Recipe[] recipes;
+    private Recipe[]? recipes;
 
     protected override async Task OnInitializedAsync()
     {
