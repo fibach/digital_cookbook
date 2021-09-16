@@ -4,6 +4,6 @@ namespace rest.Shared
 {
     public interface IRecipeRepository
     {
-        public IEnumerable<Recipe> GetAllRecipes();
+        public Task<IEnumerable<Recipe>> GetAllRecipesAsync();
     }
 }

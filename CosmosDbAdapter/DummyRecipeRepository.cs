@@ -5,10 +5,9 @@ namespace CosmosDbAdapter
 {
     internal class DummyRecipeRepository : IRecipeRepository
     {        
-        public IEnumerable<Recipe> GetAllRecipes()
+        public Task<IEnumerable<Recipe>> GetAllRecipesAsync()
         {
-            return new[]
-            {
+            var recipes = new[] {
                 RecipeFactory,
                 RecipeFactory,
                 RecipeFactory,
@@ -25,6 +24,7 @@ namespace CosmosDbAdapter
                 RecipeFactory,
                 RecipeFactory,
             };
+            return Task.FromResult<IEnumerable<Recipe>>(recipes);
         }
 
         private static Recipe RecipeFactory => new Recipe
