@@ -1,5 +1,7 @@
 using Labdays.DigitalCookbook.Rest.Shared;
 using Microsoft.AspNetCore.Mvc;
+using rest.Server.ModelFactoryMethods;
+using rest.Server.Models;
 using rest.Shared;
 
 namespace rest.Server.Controllers
@@ -8,23 +10,27 @@ namespace rest.Server.Controllers
     [Route("[controller]")]
     public class CookbookController : ControllerBase
     {
+        private readonly IRecipeRepository _recipeRepository;
+
         private readonly ILogger<CookbookController> _logger;
 
-        public CookbookController(ILogger<CookbookController> logger)
+        public CookbookController(ILogger<CookbookController> logger, IRecipeRepository recipeRepository)
         {
             _logger = logger;
+            _recipeRepository = recipeRepository;
         }
 
         [HttpGet]
-        public IEnumerable<Recipe> Get()
+        public async Task<IEnumerable<Recipe>> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new Recipe
-            {
-                Id = Guid.NewGuid(),
-                Title = $"recipe title {index}",
-                Instruction = "Instruction {index}"
-            })
-            .ToArray();
+            return await _recipeRepository.GetAllRecipesAsync();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] RecipeModel recipe)
+        {
+            var stored = await _recipeRepository.CreateAsync(recipe.ToRecipe());
+            return CreatedAtAction(nameof(Get), stored);
         }
     }
 }
