@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "98774350-6537-4847-810c-83ed1602f8a2": {
+      "ProjectGuid": "98774350-6537-4847-810c-83ed1602f8a2",
+      "DisplayName": "rest.Server",
+      "ColorIndex": 0
+    },
+    "8c1bb951-0fb9-4181-992f-351c70d581bb": {
+      "ProjectGuid": "8c1bb951-0fb9-4181-992f-351c70d581bb",
+      "DisplayName": "rest.Client",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
