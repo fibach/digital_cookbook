@@ -14,12 +14,6 @@ namespace rest.Server.Models
         {
             Ingredients = new List<Ingredient>();
             Image = new byte[0];
-        }
-
-        internal Recipe ToRecipe()
-            => Id == null 
-            ? Recipe.CreateNew(Title, Instruction, Ingredients) 
-            : Recipe.Create(Id.Value, Title, Instruction, Ingredients);
-            
+        }   
     }
 }

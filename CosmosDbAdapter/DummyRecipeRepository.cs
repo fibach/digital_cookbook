@@ -9,7 +9,8 @@ namespace CosmosDbAdapter
 
         public DummyRecipeRepository()
         {
-            _recipes = new[] {
+            _recipes = new List<Recipe>
+            {
                 RecipeFactory,
                 RecipeFactory,
                 RecipeFactory,
@@ -61,7 +62,7 @@ namespace CosmosDbAdapter
 
         public Task<Recipe> CreateAsync(Recipe newRecipe)
         {
-            _recipes.Add(newRecipe);
+            _recipes.Add(newRecipe);            
             return Task.FromResult(newRecipe);
         }
     }

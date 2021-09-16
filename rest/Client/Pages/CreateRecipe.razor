@@ -1,7 +1,6 @@
 @page "/create"
 @using Labdays.DigitalCookbook.Rest.Shared
 @using Microsoft.Extensions.Logging
-@using rest.Shared
 @inject ILogger<FormExample> Logger
 @inject HttpClient Client
 
@@ -16,7 +15,8 @@
 </EditForm>
 
 @code {
-    private Recipe recipe = new Recipe();
+    //private RecipeModel recipe = new RecipeModel();
+    private Recipe recipe = new();
 
     private async Task HandleValidSubmit()
     {
