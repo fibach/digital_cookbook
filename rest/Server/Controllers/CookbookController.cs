@@ -1,3 +1,4 @@
+using Labdays.DigitalCookbook.Rest.Shared;
 using Microsoft.AspNetCore.Mvc;
 using rest.Shared;
 
@@ -7,11 +8,6 @@ namespace rest.Server.Controllers
     [Route("[controller]")]
     public class CookbookController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly ILogger<CookbookController> _logger;
 
         public CookbookController(ILogger<CookbookController> logger)
@@ -20,13 +16,13 @@ namespace rest.Server.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<Recipe> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Enumerable.Range(1, 5).Select(index => new Recipe
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                Id = Guid.NewGuid(),
+                Title = $"recipe title {index}",
+                Instruction = "Instruction {index}"
             })
             .ToArray();
         }
