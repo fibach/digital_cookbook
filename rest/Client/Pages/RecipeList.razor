@@ -1,0 +1,39 @@
+@page "/"
+@using Labdays.DigitalCookbook.Rest.Shared
+@inject HttpClient Http
+
+<PageTitle>Recipes</PageTitle>
+
+<h1>Recipes</h1>
+
+<p>Recipe overview</p>
+@if(recipes == null){
+    <p>Loading...</p>
+} else {
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Instruction</th>            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var recipe in recipes)
+        {
+            <tr>
+                <td>@recipe.Title</td>
+                <td>@recipe.Instruction</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code {
+    private Recipe[]? recipes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        recipes = await Http.GetFromJsonAsync<Recipe[]>("Cookbook");
+    }
+}
