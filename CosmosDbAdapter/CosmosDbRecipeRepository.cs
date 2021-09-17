@@ -2,6 +2,7 @@
 using Labdays.DigitalCookbook.Rest.Shared;
 using Microsoft.Azure.Cosmos;
 using rest.Shared;
+using System.Net;
 
 namespace CosmosDbAdapter
 {
@@ -21,9 +22,7 @@ namespace CosmosDbAdapter
         public async Task<Recipe> CreateAsync(Recipe newRecipe)
         {
             var dto = RecipeDto.From(newRecipe);
-            // TODO (fi): find correct containerId
-            var container = Container;
-            await container.CreateItemAsync(dto, new PartitionKey($"{dto.Id}"));
+            await Container.CreateItemAsync(dto, new PartitionKey(dto.Id));
             return newRecipe;
         }
 
@@ -43,6 +42,28 @@ namespace CosmosDbAdapter
                 }
             }
             return recipes;
+        }
+
+        public async Task<Recipe> GetByIdAsync(Guid recipeId)
+        {
+            try
+            {
+                var respnse = await Container.ReadItemAsync<RecipeDto>($"{recipeId}", new PartitionKey($"{recipeId}"));
+                var recipe = respnse.Resource.ToRecipe();
+                return recipe;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new ArgumentException($"No recipe with Id {recipeId} was found");
+            }
+        }
+
+        public async Task<Recipe> UpdateAsync(Recipe changedRecipe)
+        {
+            var dto = RecipeDto.From(changedRecipe);
+            var response = await Container.ReplaceItemAsync(dto, dto.Id, new PartitionKey(dto.Id));
+            var changedDto = response.Resource;
+            return changedDto.ToRecipe();
         }
 
         private Container Container => _client.GetContainer(_options.DatabaseId, _options.ContainerIds.Single(x => x ==  ContainerId));

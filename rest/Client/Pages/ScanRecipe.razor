@@ -1,0 +1,35 @@
+@page "/scan"
+@using Microsoft.Extensions.Logging
+@using System.Net.Http.Headers
+@using rest.Client.Models
+@inject ILogger<CreateRecipe> Logger
+@inject HttpClient Client
+
+<h2>Scan new Recipe</h2>
+
+
+<label for="image">Image: </label>   
+<InputFile id="image" OnChange="@LoadFile" accept="image/*" capture />
+
+<a class="btn btn-primary" onclick="@HandleValidSubmit" >Submit</a>
+
+@code {
+    private IBrowserFile? file;
+
+    private void LoadFile(InputFileChangeEventArgs e)
+    {
+        file = e.File;        
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (file == null) throw new FileNotFoundException();
+        
+        using var content = new MultipartFormDataContent();
+
+        var fileContent = new StreamContent(file.OpenReadStream());
+        fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+        content.Add(content: fileContent,name: "\"files\"", fileName: file.Name);
+        await Client.PostAsync("/cookbook/scan", content);
+    }
+}

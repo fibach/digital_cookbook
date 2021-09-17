@@ -1,3 +1,4 @@
+using Application;
 using CosmosDbAdapter;
 using rest.Server;
 using rest.Shared.Ports;
@@ -13,6 +14,7 @@ builder.Services.AddSingleton(config);
 
 builder.Configuration.Bind(config);
 builder.Services.AddCosmosDbRepository(config.CosmosDbOptions ?? throw new ArgumentException($"no {nameof(config.CosmosDbOptions)} configured"));
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 

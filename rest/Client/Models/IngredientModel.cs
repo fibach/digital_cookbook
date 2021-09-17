@@ -1,4 +1,4 @@
-﻿namespace rest.Server.Models
+﻿namespace rest.Client.Models
 {
     public class IngredientModel
     {

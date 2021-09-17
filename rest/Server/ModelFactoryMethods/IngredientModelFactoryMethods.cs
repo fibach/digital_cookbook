@@ -1,5 +1,5 @@
 ﻿using Labdays.DigitalCookbook.Rest.Shared;
-using rest.Server.Models;
+using rest.Client.Models;
 
 namespace rest.Server.ModelFactoryMethods
 {
