@@ -11,19 +11,19 @@
       "DisplayName": "rest.Client",
       "ColorIndex": 1
     },
+    "1f3f70fc-21a2-415e-b105-8d5d5261e1a1": {
+      "ProjectGuid": "1f3f70fc-21a2-415e-b105-8d5d5261e1a1",
+      "DisplayName": "AI",
+      "ColorIndex": 2
+    },
     "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
     },
-    "64c63241-c46d-402d-8ef8-23b646830f2b": {
-      "ProjectGuid": "64c63241-c46d-402d-8ef8-23b646830f2b",
-      "DisplayName": "rest.Shared",
-      "ColorIndex": 2
-    },
-    "62d9cd68-aa52-4f62-9359-8c5c80651e2c": {
-      "ProjectGuid": "62d9cd68-aa52-4f62-9359-8c5c80651e2c",
-      "DisplayName": "CosmosDbAdapter",
+    "1a3a3708-58ed-4ab0-8c65-89b71aaf3e55": {
+      "ProjectGuid": "1a3a3708-58ed-4ab0-8c65-89b71aaf3e55",
+      "DisplayName": "AI.Test",
       "ColorIndex": 3
     }
   },

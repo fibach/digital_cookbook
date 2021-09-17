@@ -1,22 +1,29 @@
+﻿@page "/manualcorrection"
 @using Microsoft.Extensions.Logging
 @using rest.Client.Models
-@inject ILogger<RecipeDetails> Logger
+@inject ILogger<ManualCorrection> Logger
 @inject HttpClient Client
 @inject NavigationManager navigationManager
 
-<EditForm Model="@recipe" OnValidSubmit="@HandleValidSubmit">
+<h1>Manual Correction</h1>
+
+<EditForm Model="@manualCorrection" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div>
+     <div>
         <label for="title">Title: </label>
-        <InputText id="title" @bind-Value="recipe.Title" />
+        <InputText id="title" @bind-Value="manualCorrection.Title" />
     </div>
     <div>
-        <label for="instruction">Instruction: </label>
-        <InputText id="instruction" @bind-Value="recipe.Instruction" />
+        <label for="Instruction">Instruction: </label>
+        <InputTextArea id="Instruction" @bind-Value="manualCorrection.Instruction" />
     </div>
-    <div id="ingredients">
+    <div>
+        <label for="ingredients">Ingredients: </label>
+        <InputTextArea id="ingredients" @bind-Value="manualCorrection.Ingredients"  />
+    </div>
+  @*  <div id="ingredients">
         <h3>Ingedients</h3>
         @foreach (var ingredient in recipe.Ingredients)
         {
@@ -42,43 +49,22 @@
             </p>
         }
         <a class="btn btn-secondary" @onclick="AddIngredient">Add Ingredient</a>
-    </div>
+    </div>*@
 
     <button class="btn btn-primary" type="submit">Submit</button>
 </EditForm>
 
 @code {
     [Parameter]
-    public RecipeModel recipe { get; set; } = new();
-
-    [Parameter]
-    public bool CreateNew { get; set; } = true;
-
-    [Parameter]
-    public string NavigateTo { get; set; }
-
-    private void AddIngredient()
-    {
-        recipe.Ingredients.Add(new IngredientModel());
-    }
+    public ManualCorrectionModel manualCorrection { get; set; } = new();  
 
     private async Task HandleValidSubmit()
     {
         Logger.LogInformation("HandleValidSubmit called");
-        var jsonContent = JsonContent.Create(recipe);
-        if (CreateNew)
-        {            
-            await Client.PostAsync("/cookbook", jsonContent);
-        } else
-        {
-            var result = await Client.PutAsync("/cookbook", jsonContent);
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                Logger.LogInformation("Updated recipe.");
-            }
-        }
-
-        navigationManager.NavigateTo(NavigateTo);
+        var jsonContent = JsonContent.Create(manualCorrection);             
+        var response = await Client.PostAsync("/cookbook/manualcorrection", jsonContent);
+        var recipeId = (await response.Content.ReadAsStringAsync()).Replace("\"", string.Empty);
+        navigationManager.NavigateTo($"/editrecipe/{recipeId}");
     }
 
     public virtual void AfterHandleSubmit()
