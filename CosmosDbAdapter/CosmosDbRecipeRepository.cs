@@ -21,9 +21,7 @@ namespace CosmosDbAdapter
         public async Task<Recipe> CreateAsync(Recipe newRecipe)
         {
             var dto = RecipeDto.From(newRecipe);
-            // TODO (fi): find correct containerId
-            var container = Container;
-            await container.CreateItemAsync(dto, new PartitionKey($"{dto.Id}"));
+            await Container.CreateItemAsync(dto, new PartitionKey($"{dto.Id}"));
             return newRecipe;
         }
 
