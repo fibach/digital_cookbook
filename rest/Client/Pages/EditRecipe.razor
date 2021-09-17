@@ -10,7 +10,7 @@
 <h1>Edit Recipe</h1>
 
 
-<RecipeDetails recipe=@recipe CreateNew=@false></RecipeDetails>
+<RecipeDetails recipe=@recipe CreateNew=@false NavigateTo="/"></RecipeDetails>
 
 @code {
     RecipeModel recipe = new();  
@@ -18,12 +18,12 @@
     public string RecipeId { get; set; }
     protected override async Task OnInitializedAsync()
     {    
-        if(!string.IsNullOrEmpty(RecipeId)) {
-            //Http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        if(!string.IsNullOrEmpty(RecipeId)) {            
             var apiModel = await Http.GetFromJsonAsync<Recipe>($"cookbook/{RecipeId}");
             recipe = new RecipeModel()
                 {
                     Id = apiModel.Id,
+                    Title = apiModel.Title,
                     Image = apiModel.Image,
                     Instruction = apiModel.Instruction,
                     Ingredients = apiModel.Ingredients.Select(i => new IngredientModel()
@@ -32,7 +32,7 @@
                         Name = i.Name,
                         Unit = (IngredientModel.UnitDto)i.Unit
                     }).ToList()
-                }; //  await Http.GetFromJsonAsync<Recipe>($"Cookbook/{RecipeId}");
+                };
         }            
-    }
+    }    
 }
