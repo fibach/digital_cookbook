@@ -20,13 +20,18 @@ namespace AI.AILogic
             quantities.Add("ml");
             quantities.Add("prise");
             quantities.Add("prisen");
+            quantities.Add("prise(n)");
+            quantities.Add("prise(m)");
             quantities.Add("löffel");
             quantities.Add("tl");
             quantities.Add("teelöffel");
             quantities.Add("esslöffel");
             quantities.Add("el");
+            quantities.Add("etwas");
+            quantities.Add("handvoll");
+
             return quantities;
-                   
+
         }
     }
 }
