@@ -45,6 +45,16 @@ namespace CosmosDbAdapter
             return recipes;
         }
 
+        public Task<Recipe> GetById(Guid recipeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Recipe> UpdateAsync(Recipe changedRecipe)
+        {
+            throw new NotImplementedException();
+        }
+
         private Container Container => _client.GetContainer(_options.DatabaseId, _options.ContainerIds.Single(x => x ==  ContainerId));
     }
 }
