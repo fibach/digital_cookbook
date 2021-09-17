@@ -66,6 +66,11 @@ namespace CosmosDbAdapter
             return changedDto.ToRecipe();
         }
 
+        public async Task DeleteAsync(Guid recipeId)
+        {
+            await Container.DeleteItemAsync<RecipeDto>($"{recipeId}", new PartitionKey($"{recipeId}"));
+        }
+
         private Container Container => _client.GetContainer(_options.DatabaseId, _options.ContainerIds.Single(x => x ==  ContainerId));
     }
 }

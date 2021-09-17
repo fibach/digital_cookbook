@@ -4,6 +4,7 @@
 @using System.Net.Http.Headers
 @using rest.Client.Models
 @inject HttpClient Http
+@inject NavigationManager navigationManager
 
 <PageTitle>Edit Recipe</PageTitle>
 
@@ -11,6 +12,7 @@
 
 
 <RecipeDetails recipe=@recipe CreateNew=@false NavigateTo="/"></RecipeDetails>
+<a onclick="@Delete" class="btn btn-danger">Delete</a>
 
 @code {
     RecipeModel recipe = new();  
@@ -34,5 +36,14 @@
                     }).ToList()
                 };
         }            
-    }    
+    }
+
+    public async Task Delete()
+    {
+        var response = await Http.DeleteAsync($"cookbook/{RecipeId}");
+        if(response.IsSuccessStatusCode)
+        {
+            navigationManager.NavigateTo("/");
+        }
+    }
 }
