@@ -6,8 +6,7 @@ namespace rest.Shared
     {
         Task<IEnumerable<Recipe>> GetAllRecipesAsync();
         Task<Recipe> CreateAsync(Recipe newRecipe);
-        Task<Recipe> GetById(Guid recipeId);
-
+        Task<Recipe> GetByIdAsync(Guid recipeId);
         Task<Recipe> UpdateAsync(Recipe changedRecipe);
     }
 }

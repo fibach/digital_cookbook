@@ -29,7 +29,7 @@ namespace rest.Server.Controllers
         [HttpGet("{recipeId}")]
         public async Task<Recipe> GetById([FromRoute]Guid recipeId)
         {
-            return await _recipeRepository.GetById(recipeId);
+            return await _recipeRepository.GetByIdAsync(recipeId);
         }
 
         [HttpPost]
