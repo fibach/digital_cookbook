@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using rest.Server.ModelFactoryMethods;
 using rest.Client.Models;
 using rest.Shared;
+using Adapters.AzureCS;
 
 namespace rest.Server.Controllers
 {
@@ -48,23 +49,15 @@ namespace rest.Server.Controllers
         }
 
         [HttpPost("scan")]
-        public async Task<IActionResult> UploadScan([FromForm] IEnumerable<IFormFile> files)
+        public async Task<IActionResult> UploadScan(
+            [FromServices] IComputerVisionOcrRepository ocrRepository,
+            [FromForm] IEnumerable<IFormFile> files)
         {
-            var path = Path.Combine("C:\\Temp", "dummyFileName.jpg");
+            var stream = files.Single().OpenReadStream();
+            var x = await ocrRepository.OCRFromStreamAsync(stream);
 
-            try
-            {
-                await using FileStream fs = new(path, FileMode.Create);
-                await (files.Single()).CopyToAsync(fs);
-            }
-            catch(Exception ex)
-            {
-#pragma warning disable CA2200 // Rethrow to preserve stack details
-                throw ex;
-#pragma warning restore CA2200 // Rethrow to preserve stack details
-            }
-
-            throw new NotImplementedException();
+            // TODO: map to Model for rework UI
+            return Ok(x);
         }
     }
 }
