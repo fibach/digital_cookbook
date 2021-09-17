@@ -6,5 +6,7 @@
         public string? Instruction { get; set; }
 
         public string? Title { get; set; }
+
+        public bool IsEmpty => Ingredients == null && Instruction == null && Title == null;
     }
 }

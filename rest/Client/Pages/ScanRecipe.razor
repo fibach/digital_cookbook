@@ -11,13 +11,25 @@
 <label for="image">Image: </label>   
 <InputFile id="image" OnChange="@LoadFile" accept="image/*" capture />
 
-<a class="btn btn-primary" onclick="@HandleValidSubmit" >Submit</a>
+@if(currentlyUploading)
+{
+    <div class="spinner-border" role="status" />
+    <span class="sr-only">Loading...</span>
+}
+@if(!currentlyUploading && file != null)
+{
+    <a class="btn btn-primary" onclick="@HandleValidSubmit">Upload File</a>
+}
 
-<ManualCorrection manualCorrection=@manualCorrectionModel></ManualCorrection>
+@if(!manualCorrectionModel.IsEmpty)
+{
+    <ManualCorrection manualCorrection=@manualCorrectionModel></ManualCorrection>
+}
 
 @code {
     private IBrowserFile? file;
     private ManualCorrectionModel manualCorrectionModel = new();
+    private bool currentlyUploading = false;
 
     private void LoadFile(InputFileChangeEventArgs e)
     {
@@ -27,16 +39,23 @@
     private async Task HandleValidSubmit()
     {
         if (file == null) throw new FileNotFoundException();
-        
-        using var content = new MultipartFormDataContent();
-
-        var fileContent = new StreamContent(file.OpenReadStream(10_000_000));
-        fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-        content.Add(content: fileContent,name: "\"files\"", fileName: file.Name);
-        var response = await Client.PostAsync("/cookbook/scan", content);
-        if(response.StatusCode == System.Net.HttpStatusCode.OK)
+        currentlyUploading = true;
+        try
         {
-            manualCorrectionModel = new ManualCorrectionModel() { Instruction = await response.Content.ReadAsStringAsync() };
+            using var content = new MultipartFormDataContent();
+
+            var fileContent = new StreamContent(file.OpenReadStream(10_000_000));
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+            content.Add(content: fileContent,name: "\"files\"", fileName: file.Name);
+            var response = await Client.PostAsync("/cookbook/scan", content);
+            if(response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                manualCorrectionModel = new ManualCorrectionModel() { Instruction = await response.Content.ReadAsStringAsync() };            
+            }            
         }
+        finally
+        {
+            currentlyUploading = false;
+        }        
     }
 }
