@@ -50,6 +50,13 @@ namespace rest.Server.Controllers
             return AcceptedAtAction(nameof(Put), stored);
         }
 
+        [HttpDelete("{recipeId}")]
+        public async Task<IActionResult> Delete([FromRoute]Guid recipeId)
+        {
+            await _recipeRepository.DeleteAsync(recipeId);
+            return NoContent();
+        }
+
         [HttpPost("scan")]
         public async Task<IActionResult> UploadScan(
             [FromServices] IComputerVisionOcrRepository ocrRepository,

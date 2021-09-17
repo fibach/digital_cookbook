@@ -8,5 +8,6 @@ namespace rest.Shared
         Task<Recipe> CreateAsync(Recipe newRecipe);
         Task<Recipe> GetByIdAsync(Guid recipeId);
         Task<Recipe> UpdateAsync(Recipe changedRecipe);
+        Task DeleteAsync(Guid recipeId);
     }
 }
