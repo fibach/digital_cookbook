@@ -26,11 +26,24 @@ namespace rest.Server.Controllers
             return await _recipeRepository.GetAllRecipesAsync();
         }
 
+        [HttpGet("{recipeId}")]
+        public async Task<Recipe> GetById([FromRoute]Guid recipeId)
+        {
+            return await _recipeRepository.GetByIdAsync(recipeId);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] RecipeModel recipe)
         {
             var stored = await _recipeRepository.CreateAsync(recipe.ToRecipe());
             return CreatedAtAction(nameof(Get), stored);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] RecipeModel recipe)
+        {
+            var stored = await _recipeRepository.UpdateAsync(recipe.ToRecipe());
+            return AcceptedAtAction(nameof(Put), stored);
         }
     }
 }
