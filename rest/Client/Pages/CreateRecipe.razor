@@ -1,7 +1,7 @@
 @page "/create"
 @using Microsoft.Extensions.Logging
 @using rest.Server.Models
-@inject ILogger<FormExample> Logger
+@inject ILogger<CreateRecipe> Logger
 @inject HttpClient Client
 
 <RecipeDetails recipe=@recipe CreateNew=@true></RecipeDetails>
