@@ -5,6 +5,7 @@ using rest.Server.ModelFactoryMethods;
 using rest.Client.Models;
 using rest.Shared;
 using Adapters.AzureCS;
+using AI;
 
 namespace rest.Server.Controllers
 {
@@ -55,10 +56,12 @@ namespace rest.Server.Controllers
             [FromForm] IEnumerable<IFormFile> files)
         {
             var stream = files.Single().OpenReadStream();
-            var x = await ocrRepository.OCRFromStreamAsync(stream);
-
+            var OCR = await ocrRepository.OCRFromStreamAsync(stream);
+            var response = new Splitter().SplitText(OCR);
+            var ingredientsString = string.Join(Environment.NewLine, response.Ingridients);
+            var responseModel = new ManualCorrectionModel { Ingredients = ingredientsString, Instruction = response.Instruction };
             // TODO: map to Model for rework UI
-            return Ok(x);
+            return Ok(responseModel);
         }
 
         [HttpPost("manualcorrection")]
