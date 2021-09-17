@@ -1,0 +1,74 @@
+﻿@page "/manualcorrection"
+@using Microsoft.Extensions.Logging
+@using rest.Client.Models
+@inject ILogger<ManualCorrection> Logger
+@inject HttpClient Client
+@inject NavigationManager navigationManager
+
+<h1>Manual Correction</h1>
+
+<EditForm Model="@manualCorrection" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+     <div>
+        <label for="title">Title: </label>
+        <InputText id="title" @bind-Value="manualCorrection.Title" />
+    </div>
+    <div>
+        <label for="Instruction">Instruction: </label>
+        <InputTextArea id="Instruction" @bind-Value="manualCorrection.Instruction" />
+    </div>
+    <div>
+        <label for="ingredients">Ingredients: </label>
+        <InputTextArea id="ingredients" @bind-Value="manualCorrection.Ingredients"  />
+    </div>
+  @*  <div id="ingredients">
+        <h3>Ingedients</h3>
+        @foreach (var ingredient in recipe.Ingredients)
+        {
+            var i = recipe.Ingredients.IndexOf(ingredient);
+            <p>
+                <h4>Ingredient #@i</h4>
+                <label for="ingredient-name-@i">Name: </label>
+                <input id="ingredient-name-@i" @bind="ingredient.Name" />
+
+                <label for="ingredient-amount-@i">Amount: </label>
+                <input type="number"
+                   step="0.01"
+                   id="ingredient-amount-@i"
+                   @bind="ingredient.Amount" />
+
+                <label for="ingredient-unit-@i">Unit: </label>
+                <select id="ingredient-unit-@i" @bind="ingredient.Unit">
+                    @foreach (var unit in Enum.GetValues(typeof(IngredientModel.UnitDto)))
+                    {
+                        <option>@unit</option>
+                    }
+                </select>
+            </p>
+        }
+        <a class="btn btn-secondary" @onclick="AddIngredient">Add Ingredient</a>
+    </div>*@
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public ManualCorrectionModel manualCorrection { get; set; } = new();  
+
+    private async Task HandleValidSubmit()
+    {
+        Logger.LogInformation("HandleValidSubmit called");
+        var jsonContent = JsonContent.Create(manualCorrection);             
+        var response = await Client.PostAsync("/cookbook/manualcorrection", jsonContent);
+        var recipeId = (await response.Content.ReadAsStringAsync()).Replace("\"", string.Empty);
+        navigationManager.NavigateTo($"/editrecipe/{recipeId}");
+    }
+
+    public virtual void AfterHandleSubmit()
+    {
+        
+    }
+}
