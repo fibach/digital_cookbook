@@ -18,7 +18,7 @@ namespace Adapters.AzureCS
         public async Task<string> OCRFromStreamAsync(Stream stream)
         {
             var computerVision = CreateClient();
-            OcrResult analysis = await computerVision.RecognizePrintedTextInStreamAsync(true, stream);
+            OcrResult analysis = await computerVision.RecognizePrintedTextInStreamAsync(true, stream, OcrLanguages.De);
             return DisplayResults(analysis);
         }
 

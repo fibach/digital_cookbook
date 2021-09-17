@@ -11,17 +11,17 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-     <div>
-        <label for="title">Title: </label>
-        <InputText id="title" @bind-Value="manualCorrection.Title" />
+     <div class="row">
+         <div class="col-sm-4"><label for="title">Title: </label></div>
+         <div class="col-sm-8"><InputText id="title" @bind-Value="manualCorrection.Title" /></div>
     </div>
-    <div>
-        <label for="Instruction">Instruction: </label>
-        <InputTextArea id="Instruction" @bind-Value="manualCorrection.Instruction" />
+    <div class="row">
+        <div class="col-sm-4"><label for="Instruction">Instruction: </label></div>
+        <div class="col-sm-8"><InputTextArea id="Instruction" @bind-Value="manualCorrection.Instruction" /></div>
     </div>
-    <div>
-        <label for="ingredients">Ingredients: </label>
-        <InputTextArea id="ingredients" @bind-Value="manualCorrection.Ingredients"  />
+    <div class="row">
+        <div class="col-sm-4"><label for="ingredients">Ingredients: </label></div>
+        <div class="col-sm-8"><InputTextArea id="ingredients" @bind-Value="manualCorrection.Ingredients"  /></div>
     </div>
   @*  <div id="ingredients">
         <h3>Ingedients</h3>
@@ -51,7 +51,7 @@
         <a class="btn btn-secondary" @onclick="AddIngredient">Add Ingredient</a>
     </div>*@
 
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Save Recipe</button>
 </EditForm>
 
 @code {
