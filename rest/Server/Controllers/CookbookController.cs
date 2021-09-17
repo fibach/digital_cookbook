@@ -1,5 +1,6 @@
 using Labdays.DigitalCookbook.Rest.Shared;
 using Microsoft.AspNetCore.Mvc;
+using rest.Client.Models;
 using rest.Server.ModelFactoryMethods;
 using rest.Server.Models;
 using rest.Shared;
@@ -44,6 +45,13 @@ namespace rest.Server.Controllers
         {
             var stored = await _recipeRepository.UpdateAsync(recipe.ToRecipe());
             return AcceptedAtAction(nameof(Put), stored);
+        }
+
+        [HttpPost("manualcorrection")]
+        public async Task<IActionResult> ManualCorrectionAsync([FromBody] ManualCorrectionModel manualCorrection)
+        {
+            var stored = await _recipeRepository.CreateAsync(Recipe.CreateNew(manualCorrection.Title, manualCorrection.Instruction, Enumerable.Empty<Ingredient>()));
+            return CreatedAtAction(nameof(ManualCorrectionAsync), stored.Id);
         }
     }
 }
