@@ -2,7 +2,7 @@
 @using Microsoft.Extensions.Logging
 @using System.Net.Http.Headers
 @using rest.Client.Models
-@inject ILogger<CreateRecipe> Logger
+@inject ILogger<ScanRecipe> Logger
 @inject HttpClient Client
 
 <h2>Scan new Recipe</h2>
@@ -13,8 +13,11 @@
 
 <a class="btn btn-primary" onclick="@HandleValidSubmit" >Submit</a>
 
+<ManualCorrection manualCorrection=@manualCorrectionModel></ManualCorrection>
+
 @code {
     private IBrowserFile? file;
+    private ManualCorrectionModel manualCorrectionModel = new();
 
     private void LoadFile(InputFileChangeEventArgs e)
     {
@@ -30,6 +33,10 @@
         var fileContent = new StreamContent(file.OpenReadStream());
         fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
         content.Add(content: fileContent,name: "\"files\"", fileName: file.Name);
-        await Client.PostAsync("/cookbook/scan", content);
+        var response = await Client.PostAsync("/cookbook/scan", content);
+        if(response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            manualCorrectionModel = new ManualCorrectionModel() { Instruction = await response.Content.ReadAsStringAsync() };
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿@page "/manualcorrection"
 @using Microsoft.Extensions.Logging
 @using rest.Client.Models
-@using rest.Server.Models
 @inject ILogger<ManualCorrection> Logger
 @inject HttpClient Client
 @inject NavigationManager navigationManager
@@ -18,11 +17,11 @@
     </div>
     <div>
         <label for="Instruction">Instruction: </label>
-        <InputText id="Instruction" @bind-Value="manualCorrection.Instruction" />
+        <InputTextArea id="Instruction" @bind-Value="manualCorrection.Instruction" />
     </div>
     <div>
         <label for="ingredients">Ingredients: </label>
-        <InputText id="ingredients" @bind-Value="manualCorrection.Ingredients" />
+        <InputTextArea id="ingredients" @bind-Value="manualCorrection.Ingredients"  />
     </div>
   @*  <div id="ingredients">
         <h3>Ingedients</h3>
@@ -63,7 +62,8 @@
     {
         Logger.LogInformation("HandleValidSubmit called");
         var jsonContent = JsonContent.Create(manualCorrection);             
-        var recipeId = await Client.PostAsync("/cookbook/manualcorrection", jsonContent);        
+        var response = await Client.PostAsync("/cookbook/manualcorrection", jsonContent);
+        var recipeId = (await response.Content.ReadAsStringAsync()).Replace("\"", string.Empty);
         navigationManager.NavigateTo($"/editrecipe/{recipeId}");
     }
 
