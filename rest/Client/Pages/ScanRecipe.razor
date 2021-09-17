@@ -50,7 +50,8 @@
             var response = await Client.PostAsync("/cookbook/scan", content);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                manualCorrectionModel = new ManualCorrectionModel() { Instruction = await response.Content.ReadAsStringAsync() };            
+                var result = await response.Content.ReadFromJsonAsync<ManualCorrectionModel>();            
+                manualCorrectionModel = result;            
             }            
         }
         finally

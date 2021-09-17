@@ -26,21 +26,16 @@
       "DisplayName": "CosmosDbAdapter",
       "ColorIndex": 3
     },
+    "919fd655-f067-4ba2-b932-d926e85dd6b4": {
+      "ProjectGuid": "919fd655-f067-4ba2-b932-d926e85dd6b4",
+      "DisplayName": "Script Documents",
+      "ColorIndex": 4
+    },
     "c3ced0cf-e020-4a62-8edc-cf2a63badcac": {
       "ProjectGuid": "c3ced0cf-e020-4a62-8edc-cf2a63badcac",
       "DisplayName": "Adapters.AzureCS",
-      "ColorIndex": 4
-    },
-    "f224c5f2-a651-4f2d-b2b0-245ca835a843": {
-      "ProjectGuid": "f224c5f2-a651-4f2d-b2b0-245ca835a843",
-      "DisplayName": "Application",
       "ColorIndex": 5
-    },
-    "b660d1c4-a2dc-46d6-8d3f-680fc9b4dac3": {
-      "ProjectGuid": "b660d1c4-a2dc-46d6-8d3f-680fc9b4dac3",
-      "DisplayName": "ConsoleApp1",
-      "ColorIndex": 6
     }
   },
-  "NextColorIndex": 7
+  "NextColorIndex": 6
 }

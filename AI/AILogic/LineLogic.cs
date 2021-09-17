@@ -47,7 +47,7 @@ namespace AI.AILogic
         }
 
         //check if units included (get units from list: WordCollection
-        public List<string> FilterWrongStuffOut(List<string> ingredients, WordCollection wordCollection)
+        public List<string> Ingredients(List<string> ingredients, WordCollection wordCollection)
         {
 
             List<string> filteredList = new List<string>();
