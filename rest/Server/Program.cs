@@ -1,5 +1,6 @@
 using CosmosDbAdapter;
 using rest.Server;
+using rest.Shared.Ports;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,8 @@ else
     app.UseHsts();
 }
 
+await SetupDatabaseAsync(app);
+
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
@@ -41,3 +44,12 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
+async Task SetupDatabaseAsync(WebApplication app)
+{
+    var databaseInstaller = app.Services.GetService<IDatabaseInstaller>();
+    if (databaseInstaller == null)
+        return;
+    await databaseInstaller.InstallDatabaseAsync();
+    await databaseInstaller.SetupDatabaseTablseAsync();
+}

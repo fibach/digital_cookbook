@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using rest.Shared;
+using rest.Shared.Ports;
 
 namespace CosmosDbAdapter
 {
@@ -13,7 +14,8 @@ namespace CosmosDbAdapter
         public static IServiceCollection AddCosmosDbRepository(this IServiceCollection serviceCollection, CosmosDbOptions options)
         {
             return serviceCollection
-                .AddTransient<IRecipeRepository>(_ => new CosmosDbRecipeRepository(options));
+                .AddSingleton<IRecipeRepository>(_ => new CosmosDbRecipeRepository(options))
+                .AddSingleton<IDatabaseInstaller>(_ => new CosmosDbDatabaseInstaller(options));
         }
     }
 }
