@@ -8,13 +8,13 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div>
-        <label for="title">Title: </label>
-        <InputText id="title" @bind-Value="recipe.Title" />
+    <div class="row">
+         <div class="col-sm-4"><label for="title">Title: </label></div>
+         <div class="col-sm-8"><InputText id="title" @bind-Value="recipe.Title" /></div>
     </div>
-    <div>
-        <label for="instruction">Instruction: </label>
-        <InputText id="instruction" @bind-Value="recipe.Instruction" />
+    <div class="row">
+        <div class="col-sm-4"><label for="Instruction">Instruction: </label></div>
+        <div class="col-sm-8"><InputTextArea class="instructionbox" id="Instruction" @bind-Value="recipe.Instruction" /></div>
     </div>
     <div id="ingredients">
         <h3>Ingedients</h3>

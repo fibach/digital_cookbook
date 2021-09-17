@@ -63,8 +63,9 @@ a, .btn-link {
     content: "An error has occurred."
 }
 
-textarea {
+.instructionbox {
     width: 100%;
     resize: both;
     min-height: 10rem;
+    min-width: 40rem;
 }
