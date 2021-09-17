@@ -30,7 +30,7 @@
         
         using var content = new MultipartFormDataContent();
 
-        var fileContent = new StreamContent(file.OpenReadStream());
+        var fileContent = new StreamContent(file.OpenReadStream(10_000_000));
         fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
         content.Add(content: fileContent,name: "\"files\"", fileName: file.Name);
         var response = await Client.PostAsync("/cookbook/scan", content);
