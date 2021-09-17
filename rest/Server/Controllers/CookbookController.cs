@@ -67,7 +67,11 @@ namespace rest.Server.Controllers
         [HttpPost("manualcorrection")]
         public async Task<Guid> ManualCorrectionAsync([FromBody] ManualCorrectionModel manualCorrection)
         {
-            var stored = await _recipeRepository.CreateAsync(Recipe.CreateNew(manualCorrection.Title, manualCorrection.Instruction, Enumerable.Empty<Ingredient>()));
+            var splittedIngredients = manualCorrection.Ingredients?.Split("\n");
+            var stored = await _recipeRepository.CreateAsync(Recipe.CreateNew(
+                manualCorrection.Title, 
+                manualCorrection.Instruction, 
+                splittedIngredients.Select(i => new Ingredient() { Name = i})));
             return stored.Id;
         }
     }
