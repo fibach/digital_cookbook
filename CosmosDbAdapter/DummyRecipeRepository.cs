@@ -5,7 +5,7 @@ namespace CosmosDbAdapter
 {
     internal class DummyRecipeRepository : IRecipeRepository
     {
-        private readonly ICollection<Recipe> _recipes;
+        private readonly IList<Recipe> _recipes;
 
         public DummyRecipeRepository()
         {
@@ -32,6 +32,10 @@ namespace CosmosDbAdapter
         public Task<IEnumerable<Recipe>> GetAllRecipesAsync()
         {
             return Task.FromResult<IEnumerable<Recipe>>(_recipes);
+        }
+
+        public Task<Recipe> GetById(Guid recipeId){
+            return Task.FromResult(_recipes.Where(r => r.Id == recipeId).Single());
         }
 
         private static Recipe RecipeFactory => Recipe.CreateNew
@@ -64,6 +68,15 @@ namespace CosmosDbAdapter
         {
             _recipes.Add(newRecipe);            
             return Task.FromResult(newRecipe);
+        }
+
+        public Task<Recipe> UpdateAsync(Recipe changedRecipe)
+        {
+            var index = _recipes.ToList().IndexOf(_recipes.Single(r => r.Id == changedRecipe.Id));
+
+            _recipes[index] = changedRecipe;
+
+            return Task.FromResult(changedRecipe);
         }
     }
 }

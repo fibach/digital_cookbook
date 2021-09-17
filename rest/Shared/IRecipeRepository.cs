@@ -4,7 +4,10 @@ namespace rest.Shared
 {
     public interface IRecipeRepository
     {
-        public Task<IEnumerable<Recipe>> GetAllRecipesAsync();
-        public Task<Recipe> CreateAsync(Recipe newRecipe);
+        Task<IEnumerable<Recipe>> GetAllRecipesAsync();
+        Task<Recipe> CreateAsync(Recipe newRecipe);
+        Task<Recipe> GetById(Guid recipeId);
+
+        Task<Recipe> UpdateAsync(Recipe changedRecipe);
     }
 }
