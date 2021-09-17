@@ -1,6 +1,4 @@
-﻿using Labdays.DigitalCookbook.Rest.Shared;
-
-namespace rest.Server.Models
+﻿namespace rest.Client.Models
 {
     public class RecipeModel
     {
