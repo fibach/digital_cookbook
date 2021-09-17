@@ -1,0 +1,38 @@
+@page "/editrecipe/{RecipeId}"
+@using Labdays.DigitalCookbook.Rest.Shared
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Net.Http.Headers
+@using rest.Server.Models
+@inject HttpClient Http
+
+<PageTitle>Edit Recipe</PageTitle>
+
+<h1>Edit Recipe</h1>
+
+
+<RecipeDetails recipe=@recipe CreateNew=@false></RecipeDetails>
+
+@code {
+    RecipeModel recipe = new();  
+    [Parameter]
+    public string RecipeId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {    
+        if(!string.IsNullOrEmpty(RecipeId)) {
+            //Http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var apiModel = await Http.GetFromJsonAsync<Recipe>($"cookbook/{RecipeId}");
+            recipe = new RecipeModel()
+                {
+                    Id = apiModel.Id,
+                    Image = apiModel.Image,
+                    Instruction = apiModel.Instruction,
+                    Ingredients = apiModel.Ingredients.Select(i => new IngredientModel()
+                    {
+                        Amount = i.Amount,
+                        Name = i.Name,
+                        Unit = (IngredientModel.UnitDto)i.Unit
+                    }).ToList()
+                }; //  await Http.GetFromJsonAsync<Recipe>($"Cookbook/{RecipeId}");
+        }            
+    }
+}

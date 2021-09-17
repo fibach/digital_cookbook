@@ -1,54 +1,14 @@
 @page "/create"
 @using Microsoft.Extensions.Logging
 @using rest.Server.Models
-@inject ILogger<FormExample> Logger
+@inject ILogger<CreateRecipe> Logger
 @inject HttpClient Client
 
-<EditForm Model="@recipe" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div>
-        <label for="title">Title: </label>
-        <InputText id="title" @bind-Value="recipe.Title" />
-    </div>
-    <div>
-        <label for="instruction">Instruction: </label>
-        <InputText id="instruction" @bind-Value="recipe.Instruction" />
-    </div>
-    <div id="ingredients" >
-        <h3>Ingedients</h3>
-        @foreach(var ingredient in recipe.Ingredients)
-        {
-            var i = recipe.Ingredients.IndexOf(ingredient);
-            <p>
-                <h4>Ingredient #@i</h4>
-                <label for="ingredient-name-@i">Name: </label>
-                <input id="ingredient-name-@i" @bind="ingredient.Name" />
-
-                <label for="ingredient-amount-@i">Amount: </label>
-                <input type="number" 
-                    step="0.01" 
-                    id="ingredient-amount-@i" 
-                    @bind="ingredient.Amount" />
-
-                <label for="ingredient-unit-@i">Unit: </label>
-                <select id="ingredient-unit-@i" @bind="ingredient.Unit">
-                    @foreach(var unit in Enum.GetValues(typeof(IngredientModel.UnitDto)))
-                    {
-                        <option>@unit</option>
-                    }
-                </select>
-            </p>
-        }    
-        <a class="btn btn-secondary" @onclick="AddIngredient">Add Ingredient</a>
-    </div>
-
-    <button class="btn btn-primary" type="submit">Submit</button>
-</EditForm>
+<RecipeDetails recipe=@recipe CreateNew=@true></RecipeDetails>
 
 @code {
-    private RecipeModel recipe = new();
+    [Parameter]
+    public RecipeModel recipe { get; set; } = new();
 
     private void AddIngredient() 
     {
