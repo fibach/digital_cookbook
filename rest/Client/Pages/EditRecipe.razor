@@ -10,7 +10,7 @@
 <h1>Edit Recipe</h1>
 
 
-<RecipeDetails recipe=@recipe CreateNew=@false></RecipeDetails>
+<RecipeDetails recipe=@recipe CreateNew=@false NavigateTo="/"></RecipeDetails>
 
 @code {
     RecipeModel recipe = new();  
@@ -34,5 +34,5 @@
                     }).ToList()
                 };
         }            
-    }
+    }    
 }

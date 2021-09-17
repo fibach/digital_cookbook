@@ -4,7 +4,7 @@
 @inject ILogger<CreateRecipe> Logger
 @inject HttpClient Client
 
-<RecipeDetails recipe=@recipe CreateNew=@true></RecipeDetails>
+<RecipeDetails recipe=@recipe CreateNew=@true NavigateTo="/"></RecipeDetails>
 
 @code {
     [Parameter]
