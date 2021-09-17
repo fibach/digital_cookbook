@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CosmosDbAdapter\CosmosDbAdapter.csproj" />
     <ProjectReference Include="..\Client\rest.Client.csproj" />
     <ProjectReference Include="..\Shared\rest.Shared.csproj" />
   </ItemGroup>

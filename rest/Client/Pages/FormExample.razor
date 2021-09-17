@@ -1,0 +1,24 @@
+@page "/form-example-1"
+@using Microsoft.Extensions.Logging
+@using rest.Shared
+@inject ILogger<FormExample> Logger
+
+<EditForm Model="@forecast" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="name" @bind-Value="forecast.Summary" />
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private WeatherForecast forecast = new();
+
+    private void HandleValidSubmit()
+    {
+        Logger.LogInformation("HandleValidSubmit called");
+
+        // Process the valid form
+    }
+}
