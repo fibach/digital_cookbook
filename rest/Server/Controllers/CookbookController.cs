@@ -1,7 +1,7 @@
 using Labdays.DigitalCookbook.Rest.Shared;
 using Microsoft.AspNetCore.Mvc;
 using rest.Server.ModelFactoryMethods;
-using rest.Server.Models;
+using rest.Client.Models;
 using rest.Shared;
 
 namespace rest.Server.Controllers
@@ -11,12 +11,13 @@ namespace rest.Server.Controllers
     public class CookbookController : ControllerBase
     {
         private readonly IRecipeRepository _recipeRepository;
-
+        private readonly IWebHostEnvironment _env;
         private readonly ILogger<CookbookController> _logger;
 
-        public CookbookController(ILogger<CookbookController> logger, IRecipeRepository recipeRepository)
+        public CookbookController(ILogger<CookbookController> logger, IWebHostEnvironment env, IRecipeRepository recipeRepository)
         {
             _logger = logger;
+            _env = env;
             _recipeRepository = recipeRepository;
         }
 
@@ -44,6 +45,26 @@ namespace rest.Server.Controllers
         {
             var stored = await _recipeRepository.UpdateAsync(recipe.ToRecipe());
             return AcceptedAtAction(nameof(Put), stored);
+        }
+
+        [HttpPost("scan")]
+        public async Task<IActionResult> UploadScan([FromForm] IEnumerable<IFormFile> files)
+        {
+            var path = Path.Combine("C:\\Temp", "dummyFileName.jpg");
+
+            try
+            {
+                await using FileStream fs = new(path, FileMode.Create);
+                await (files.Single()).CopyToAsync(fs);
+            }
+            catch(Exception ex)
+            {
+#pragma warning disable CA2200 // Rethrow to preserve stack details
+                throw ex;
+#pragma warning restore CA2200 // Rethrow to preserve stack details
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
