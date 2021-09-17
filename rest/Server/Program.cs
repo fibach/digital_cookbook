@@ -1,13 +1,18 @@
 using CosmosDbAdapter;
-using Microsoft.AspNetCore.ResponseCompression;
+using rest.Server;
+using rest.Shared.Ports;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddRecipeRepository();
+
+var config = new AppConfiguration();
+builder.Services.AddSingleton(config);
+
+builder.Configuration.Bind(config);
+builder.Services.AddCosmosDbRepository(config.CosmosDbOptions ?? throw new ArgumentException($"no {nameof(config.CosmosDbOptions)} configured"));
 
 var app = builder.Build();
 
@@ -23,6 +28,8 @@ else
     app.UseHsts();
 }
 
+await SetupDatabaseAsync(app);
+
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
@@ -36,3 +43,12 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
+async Task SetupDatabaseAsync(WebApplication app)
+{
+    var databaseInstaller = app.Services.GetService<IDatabaseInstaller>();
+    if (databaseInstaller == null)
+        return;
+    await databaseInstaller.InstallDatabaseAsync();
+    await databaseInstaller.SetupDatabaseTablseAsync();
+}
