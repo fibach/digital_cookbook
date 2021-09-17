@@ -7,14 +7,20 @@
 
 <h2>Scan new Recipe</h2>
 
+<div class="row">
+    <div class="col-sm-4"><label for="image">Scan Image: </label></div>
+    <div class="col-sm-8"><InputFile id="image" OnChange="@LoadFile" accept="image/*" capture /></div>
+</div>
 
-<label for="image">Image: </label>   
-<InputFile id="image" OnChange="@LoadFile" accept="image/*" capture />
+<div class="row">
+    <div class="col-sm-4"><label for="image">Choose Image: </label></div>
+    <div class="col-sm-8"><InputFile id="image" OnChange="@LoadFile" accept="image/*" /></div>
+</div>
 
 @if(currentlyUploading)
 {
     <div class="spinner-border" role="status" />
-    <span class="sr-only">Loading...</span>
+    <span class="sr-only">Uploading...</span>
 }
 @if(!currentlyUploading && file != null)
 {
@@ -23,7 +29,9 @@
 
 @if(!manualCorrectionModel.IsEmpty)
 {
-    <ManualCorrection manualCorrection=@manualCorrectionModel></ManualCorrection>
+    <div class="row">
+        <ManualCorrection manualCorrection=@manualCorrectionModel></ManualCorrection>
+    </div>
 }
 
 @code {
