@@ -7,6 +7,7 @@ namespace CosmosDbAdapter
 {
     internal class CosmosDbRecipeRepository : IRecipeRepository
     {
+        private const string ContainerId = "Recipes";
         private readonly CosmosDbOptions _options;
         private readonly CosmosClient _client;
 
@@ -21,14 +22,29 @@ namespace CosmosDbAdapter
         {
             var dto = RecipeDto.From(newRecipe);
             // TODO (fi): find correct containerId
-            var container = _client.GetContainer(_options.DatabaseId, _options.ContainerIds.Single());
+            var container = Container;
             await container.CreateItemAsync(dto, new PartitionKey($"{dto.Id}"));
             return newRecipe;
         }
 
-        public Task<IEnumerable<Recipe>> GetAllRecipesAsync()
+        public async Task<IEnumerable<Recipe>> GetAllRecipesAsync()
         {
-            throw new NotImplementedException();
+            var sqlQueryText = "SELECT * FROM c";
+            var queryDefinition = new QueryDefinition(sqlQueryText);
+            var queryResultSetIterator = Container.GetItemQueryIterator<RecipeDto>(queryDefinition);
+            var recipes = new List<Recipe>();
+
+            while (queryResultSetIterator.HasMoreResults)
+            {
+                var currentResultSet = await queryResultSetIterator.ReadNextAsync();
+                foreach (var recipeDto in currentResultSet)
+                {
+                    recipes.Add(recipeDto.ToRecipe());
+                }
+            }
+            return recipes;
         }
+
+        private Container Container => _client.GetContainer(_options.DatabaseId, _options.ContainerIds.Single(x => x ==  ContainerId));
     }
 }
