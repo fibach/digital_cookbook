@@ -1,3 +1,4 @@
+using Application;
 using CosmosDbAdapter;
 using Microsoft.AspNetCore.ResponseCompression;
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddRecipeRepository();
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
