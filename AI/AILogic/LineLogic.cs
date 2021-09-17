@@ -59,23 +59,29 @@ namespace AI.AILogic
                 
                 foreach(string word in words)
                 {
-                    if(wordCollectionItems.Contains(word))
-                    
+                    if(wordCollectionItems.Contains(word))                    
                     {
-                        bool containsItem = filteredList.Any(item => item == unit);
-                        // doesnt add if already exists  // MAY CAUSED BUG
-                        if (!containsItem)
-                        {
-                            filteredList.Add(unit);
-                        }
-                        
-                        
+                        AddToFilteredListIfNotContains(filteredList, unit);
                     }
-                   
+                    else if (double.TryParse(word, out var parsedDoubleValue))
+                    {
+                        AddToFilteredListIfNotContains(filteredList, unit);
+                    }
+
                 }
                 
             }
             return filteredList;
+        }
+
+        private static void AddToFilteredListIfNotContains(List<string> filteredList, string unit)
+        {
+            bool containsItem = filteredList.Any(item => item == unit);
+            // doesnt add if already exists  // MAY CAUSED BUG
+            if (!containsItem)
+            {
+                filteredList.Add(unit);
+            }
         }
 
         public string Recipe(List<string> ingredientsList, string text)

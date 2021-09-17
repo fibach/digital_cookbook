@@ -20,5 +20,17 @@ namespace AI.Test
             actual.Should().BeEquivalentTo(expected);
 
         }
+
+        [Fact]
+        public void ShouldParseIngredientWithNumber()
+        {
+            string testText = "2 Knoblauchzehen\n 3 EL Butter\n Das hier ist nur ein Text für Testzwecke :)\n Das ist TestText";
+            WordCollection wordCollection = new();
+            LineLogic lineLogic = new();
+            var splitLines = lineLogic.SplitLines(testText);
+            var acutal = lineLogic.Ingredients(splitLines, wordCollection);
+            List<string> expected = new List<string> { "2 Knoblauchzehen", " 3 EL Butter" };
+            acutal.Should().BeEquivalentTo(expected);
+        }
     }
 }
