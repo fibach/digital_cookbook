@@ -13,9 +13,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosDbAdapter", "CosmosDb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AI", "AI\AI.csproj", "{1F3F70FC-21A2-415E-B105-8D5D5261E1A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI.Test", "AI.Test\AI.Test.csproj", "{1A3A3708-58ED-4AB0-8C65-89B71AAF3E55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AI.Test", "AI.Test\AI.Test.csproj", "{1A3A3708-58ED-4AB0-8C65-89B71AAF3E55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adapters.AzureCS", "Adapters.AzureCS\Adapters.AzureCS.csproj", "{C3CED0CF-E020-4A62-8EDC-CF2A63BADCAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adapters.AzureCS", "Adapters.AzureCS\Adapters.AzureCS.csproj", "{C3CED0CF-E020-4A62-8EDC-CF2A63BADCAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E42A7A39-5AF2-4F80-B935-C225CA780FAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pictures", "Pictures", "{9992FD3C-4F93-42FA-83BD-94A1C2FAAF92}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Users\admin.FI_COOKBOOK\Desktop\rezept2.PNG = ..\..\Users\admin.FI_COOKBOOK\Desktop\rezept2.PNG
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +61,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9992FD3C-4F93-42FA-83BD-94A1C2FAAF92} = {E42A7A39-5AF2-4F80-B935-C225CA780FAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41324607-A373-44CF-A476-98D4268A8332}
