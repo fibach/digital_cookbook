@@ -5,10 +5,9 @@ namespace Application
 {
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddAzureCS(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddTransient<NewRecipeCommand>()
                 .AddTransient<IComputerVisionOcrRepository, ComputerVisionOCR>();
         }
     }

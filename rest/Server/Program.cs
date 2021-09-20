@@ -1,3 +1,4 @@
+using Adapters.GoogleCV;
 using Application;
 using CosmosDbAdapter;
 using rest.Server;
@@ -14,7 +15,8 @@ builder.Services.AddSingleton(config);
 
 builder.Configuration.Bind(config);
 builder.Services.AddCosmosDbRepository(config.CosmosDbOptions ?? throw new ArgumentException($"no {nameof(config.CosmosDbOptions)} configured"));
-builder.Services.AddApplicationServices();
+builder.Services.AddAzureCS();
+builder.Services.AddGoogleCV();
 
 var app = builder.Build();
 

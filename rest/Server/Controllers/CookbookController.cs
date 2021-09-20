@@ -6,6 +6,7 @@ using rest.Client.Models;
 using rest.Shared;
 using Adapters.AzureCS;
 using AI;
+using Adapters.GoogleCV;
 
 namespace rest.Server.Controllers
 {
@@ -31,7 +32,7 @@ namespace rest.Server.Controllers
         }
 
         [HttpGet("{recipeId}")]
-        public async Task<Recipe> GetById([FromRoute]Guid recipeId)
+        public async Task<Recipe> GetById([FromRoute] Guid recipeId)
         {
             return await _recipeRepository.GetByIdAsync(recipeId);
         }
@@ -51,7 +52,7 @@ namespace rest.Server.Controllers
         }
 
         [HttpDelete("{recipeId}")]
-        public async Task<IActionResult> Delete([FromRoute]Guid recipeId)
+        public async Task<IActionResult> Delete([FromRoute] Guid recipeId)
         {
             await _recipeRepository.DeleteAsync(recipeId);
             return NoContent();
@@ -63,8 +64,22 @@ namespace rest.Server.Controllers
             [FromForm] IEnumerable<IFormFile> files)
         {
             var stream = files.Single().OpenReadStream();
-            var OCR = await ocrRepository.OCRFromStreamAsync(stream);
-            var response = new Splitter().SplitText(OCR);
+            var ocrOutput = await ocrRepository.OCRFromStreamAsync(stream);
+            var response = new Splitter().SplitText(ocrOutput);
+            var ingredientsString = string.Join(Environment.NewLine, response.Ingridients);
+            var responseModel = new ManualCorrectionModel { Ingredients = ingredientsString, Instruction = response.Instruction };
+            // TODO: map to Model for rework UI
+            return Ok(responseModel);
+        }
+        [HttpPost("scan2")]
+        public async Task<IActionResult> UploadScanGoole(
+            [FromServices] ICloudVisionOcr googleOcr,
+            [FromForm] IEnumerable<IFormFile> files)
+        {
+            var stream = files.Single().OpenReadStream();
+            //var ocrOutput = await ocrRepository.OCRFromStreamAsync(stream);
+            var ocrOutput = googleOcr.OCRFromStreamAsync(stream);
+            var response = new Splitter().SplitText(ocrOutput);
             var ingredientsString = string.Join(Environment.NewLine, response.Ingridients);
             var responseModel = new ManualCorrectionModel { Ingredients = ingredientsString, Instruction = response.Instruction };
             // TODO: map to Model for rework UI
@@ -76,9 +91,9 @@ namespace rest.Server.Controllers
         {
             var splittedIngredients = manualCorrection.Ingredients?.Split("\n");
             var stored = await _recipeRepository.CreateAsync(Recipe.CreateNew(
-                manualCorrection.Title, 
-                manualCorrection.Instruction, 
-                splittedIngredients.Select(i => new Ingredient() { Name = i})));
+                manualCorrection.Title,
+                manualCorrection.Instruction,
+                splittedIngredients.Select(i => new Ingredient() { Name = i })));
             return stored.Id;
         }
     }

@@ -1,6 +1,8 @@
 @page "/scan"
+
 @using Microsoft.Extensions.Logging
 @using System.Net.Http.Headers
+@using System.Web
 @using rest.Client.Models
 @inject ILogger<ScanRecipe> Logger
 @inject HttpClient Client
@@ -24,7 +26,8 @@
 }
 @if(!currentlyUploading && file != null)
 {
-    <a class="btn btn-primary" onclick="@HandleValidSubmit">Upload File</a>
+    <a class="btn btn-primary" onclick="@HandleValidSubmitGoogle">Upload to Goole</a>
+    <a class="btn btn-primary" onclick="@HandleValidSubmit">Upload to Azure</a>
 }
 
 @if(!manualCorrectionModel.IsEmpty)
@@ -38,7 +41,6 @@
     private IBrowserFile? file;
     private ManualCorrectionModel manualCorrectionModel = new();
     private bool currentlyUploading = false;
-
     private void LoadFile(InputFileChangeEventArgs e)
     {
         file = e.File;        
@@ -51,11 +53,10 @@
         try
         {
             using var content = new MultipartFormDataContent();
-
             var fileContent = new StreamContent(file.OpenReadStream(10_000_000));
             fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
             content.Add(content: fileContent,name: "\"files\"", fileName: file.Name);
-            var response = await Client.PostAsync("/cookbook/scan", content);
+            var response = await Client.PostAsync("/cookbook/scan/", content);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var result = await response.Content.ReadFromJsonAsync<ManualCorrectionModel>();            
@@ -67,4 +68,29 @@
             currentlyUploading = false;
         }        
     }
+
+    private async Task HandleValidSubmitGoogle()
+    {
+        if (file == null) throw new FileNotFoundException();
+        currentlyUploading = true;
+        try
+        {
+            using var content = new MultipartFormDataContent();
+            var fileContent = new StreamContent(file.OpenReadStream(10_000_000));
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+            content.Add(content: fileContent,name: "\"files\"", fileName: file.Name);
+            var response = await Client.PostAsync("/cookbook/scan2/", content);
+            if(response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ManualCorrectionModel>();            
+                manualCorrectionModel = result;            
+            }            
+        }
+        finally
+        {
+            currentlyUploading = false;
+        }        
+    }
+
+
 }

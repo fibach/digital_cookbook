@@ -12,10 +12,17 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Adapters.AzureCS\Adapters.AzureCS.csproj" />
+		<ProjectReference Include="..\..\Adapters.GoogleCV\Adapters.GoogleCV.csproj" />
 		<ProjectReference Include="..\..\AI\AI.csproj" />
 		<ProjectReference Include="..\..\CosmosDbAdapter\CosmosDbAdapter.csproj" />
 		<ProjectReference Include="..\Client\rest.Client.csproj" />
 		<ProjectReference Include="..\Shared\rest.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="google-key.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 

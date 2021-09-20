@@ -98,7 +98,7 @@ namespace AI.AILogic
                     
                 }
             }
-            string recipeText = string.Join(",", splittedArray);
+            string recipeText = string.Join("\n", splittedArray);
             return recipeText;
         }
                

@@ -28,7 +28,7 @@
     },
     "c3ced0cf-e020-4a62-8edc-cf2a63badcac": {
       "ProjectGuid": "c3ced0cf-e020-4a62-8edc-cf2a63badcac",
-      "DisplayName": "Adapters.AzureCS",
+      "DisplayName": "Adapters.OCR",
       "ColorIndex": 4
     },
     "f224c5f2-a651-4f2d-b2b0-245ca835a843": {
@@ -40,7 +40,27 @@
       "ProjectGuid": "b660d1c4-a2dc-46d6-8d3f-680fc9b4dac3",
       "DisplayName": "ConsoleApp1",
       "ColorIndex": 6
+    },
+    "1a3a3708-58ed-4ab0-8c65-89b71aaf3e55": {
+      "ProjectGuid": "1a3a3708-58ed-4ab0-8c65-89b71aaf3e55",
+      "DisplayName": "AI.Test",
+      "ColorIndex": 7
+    },
+    "1f3f70fc-21a2-415e-b105-8d5d5261e1a1": {
+      "ProjectGuid": "1f3f70fc-21a2-415e-b105-8d5d5261e1a1",
+      "DisplayName": "AI",
+      "ColorIndex": 8
+    },
+    "919fd655-f067-4ba2-b932-d926e85dd6b4": {
+      "ProjectGuid": "919fd655-f067-4ba2-b932-d926e85dd6b4",
+      "DisplayName": "Script Documents",
+      "ColorIndex": 9
+    },
+    "36aedd8b-eeac-4c35-bcca-636a2f0cd357": {
+      "ProjectGuid": "36aedd8b-eeac-4c35-bcca-636a2f0cd357",
+      "DisplayName": "Adapters.GoogleCV",
+      "ColorIndex": 10
     }
   },
-  "NextColorIndex": 7
+  "NextColorIndex": 11
 }
