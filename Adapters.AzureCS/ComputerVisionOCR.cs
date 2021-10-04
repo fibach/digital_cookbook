@@ -49,7 +49,7 @@ namespace Adapters.AzureCS
         
         private ComputerVisionClient CreateClient()
         {
-            string subscriptionKey = "fd7e47ff4ad34912903bd556ec832e76";
+            string subscriptionKey = "your_key_here";
             string endpoint = "https://cookbookcomputertvision.cognitiveservices.azure.com/";
 
             ComputerVisionClient computerVision = new ComputerVisionClient(new ApiKeyServiceClientCredentials(subscriptionKey))
